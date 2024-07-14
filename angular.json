@@ -21,13 +21,10 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -79,18 +76,20 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           }
         }
       }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss"
     }
   },
   "cli": {

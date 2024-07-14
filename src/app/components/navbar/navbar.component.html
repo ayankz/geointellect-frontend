@@ -1,0 +1,24 @@
+<div class="navbar flex center-space-between">
+  <div class="navbar-item w-25">
+    <div class="logo-container bg-blue flex center">
+      <img ngSrc="assets/svg/logo.svg" alt="logo" height="24" width="24">
+    </div>
+    <div class="logo-container title-container bg-blue flex center">
+      GeoIntellect
+    </div>
+  </div>
+  <div class="navbar-item grow-1">
+    <input type="text" class="navbar-search" placeholder="Поиск по адресу">
+  </div>
+  <div class="navbar-item flex-end gap-1">
+    <div class="menu-container bg-grey flex center-space-between">
+     <span routerLink="/map" routerLinkActive="active">Карта</span>
+     <span routerLink="/reports" routerLinkActive="active">Отчеты</span>
+     <span routerLink="/prices" routerLinkActive="active">Цены</span>
+    </div>
+    <div class="logo-container bg-grey flex center">
+      <img ngSrc="assets/svg/user-logo.svg" alt="user" height="24" width="24">
+    </div>
+  </div>
+</div>
+
