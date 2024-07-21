@@ -6,6 +6,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {MapComponent} from "./components/map/map.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {HintComponent} from "./components/hint/hint.component";
+import {SharedModule} from "./modules/shared/shared.module";
 
 const routes: Routes = [
   {path: '', redirectTo: 'map', pathMatch:'full'},
@@ -16,20 +17,23 @@ const routes: Routes = [
   {path: 'prices', loadChildren : () =>
       import('./modules/prices/prices.module')
         .then((m) => m.PricesModule)},
+  {path: 'account', loadChildren : () =>
+      import('./modules/account/account.module')
+        .then((m) => m.AccountModule)},
 ];
 
 @NgModule({
-    declarations: [AppComponent, NavbarComponent, MapComponent,HintComponent],
+    declarations: [AppComponent, MapComponent,HintComponent],
     imports: [
         BrowserModule,
         CommonModule,
         RouterModule.forRoot(routes),
         NgOptimizedImage,
+        SharedModule
     ],
     bootstrap: [AppComponent],
     exports: [
       RouterModule,
-        NavbarComponent,
       HintComponent
     ]
 })

@@ -16,8 +16,17 @@
   justify-content: space-between;
   align-items: center;
 }
+.left{
+  align-items: flex-start;
+}
+.start{
+  justify-content: flex-start;
+}
 .justify-center{
   justify-content: center;
+}
+.w-100{
+  width: 100%;
 }
 .bg-blue{
   background: #3F80FF;
@@ -39,6 +48,9 @@
 }
 .mb-24{
   margin-bottom: 24px;
+}
+.mx-40{
+  margin: 40px 0;
 }
 .mb-40{
   margin-bottom: 40px;
@@ -89,4 +101,13 @@
 }
 .grey-color{
   color:#8E95A3
+}
+.grow-1{
+  flex-grow: 1;
+}
+.grow-2{
+  flex-grow: 2;
+}
+.w-70{
+  width: 60%;
 }

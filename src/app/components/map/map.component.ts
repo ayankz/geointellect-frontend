@@ -31,7 +31,6 @@ ngOnInit() {
     this.lat = lat;
     this.lng = lng ;
     this.map?.setCenter([ this.lng,this.lat] )
-    console.log(this.map?.getCenter())
   })
 
   this.map.on('click', (event) => {

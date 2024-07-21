@@ -1,0 +1,40 @@
+.change-container{
+  z-index: 10;
+  position: absolute;
+  font-family: 'Noto-regular', sans-serif;
+  width: 480px;
+  top:30%;
+  left:400px;
+  background-color: #E8EBF0;
+  border-radius: 30px;
+  padding: 16px;
+  //display: none;
+  span{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color:#1A1E27;
+  }
+  .buttons{
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    button{
+      border-radius: 30px;
+      border: 1px solid #C4CAD4;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      text-align: center;
+      color:#1A1E27;
+      flex-basis: 50%;
+      height: 48px;
+    }
+    .active{
+      color:white;
+      background: #3F80FF
+    }
+  }
+}

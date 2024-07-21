@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -6,7 +7,10 @@ import {Component} from '@angular/core';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  constructor() {
+  @Input() showSearch: boolean = true;
+  @Input() isAbsolute: boolean = true;
+  public showMobileMenu: boolean = false;
+  constructor(private route: ActivatedRoute,private router: Router) {
 
   }
 }

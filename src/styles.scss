@@ -34,13 +34,20 @@ html,body{
   margin: 0;
   padding: 0;
 }
+
 a{
-  color:#3F80FF
+  color:#3F80FF;
+  text-decoration: none;
+}
+#map {
+  width: 100vw;
+  height: 100vh;
 }
 .mapboxgl-ctrl.mapboxgl-ctrl-attrib{
   display: none;
 }
 .map-menu{
+  z-index: 1;
   position: absolute;
   padding-left: 16px;
   left: 0;
@@ -52,6 +59,55 @@ a{
     width: 60px;
     height: 60px;
   }
+  @media screen and (max-width: 768px){
+    top: 75%;
+  }
+}
+.form{
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  position: relative;
+  flex-wrap: wrap;
+  align-items: center;
+  .form-control{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1 1 auto;
+    h3{
+      color:#1A1E27;
+      margin-bottom: 16px;
+      font-size: 24px;
+      font-family: 'Noto-regular', sans-serif;
+    }
+    img{
+      position: absolute;
+      right: 16px;
+      top: 40px;
+    }
+    input, select,textarea{
+      border: 1px solid #D8DCE2;
+      background: transparent;
+      border-radius: 24px;
+      color: #8E95A3;
+      padding: 14px 24px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    label{
+      color: #8E95A3;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    select{
+      background: white;
+      -webkit-appearance: none;
+    }
+
+  }
+
 }
 .modal{
   position: absolute;
@@ -88,7 +144,10 @@ a{
 }
 .top-layout{
   font-family: 'Noto-regular', sans-serif;
-  padding: 92px 16px 0 16px;
+  padding: 16px 16px 200px 16px;
+  min-height: 800px;
+  height: 100vh;
+  overflow-y: scroll;
 }
 .navbar-fixed{
 
@@ -96,10 +155,91 @@ a{
 .w-25{
   flex-basis: 25%;
 }
+.navbar-mobile{
+  @media screen and (min-width: 768px){
+    display: none;
+  }
+  .navbar-mobile-wrapper{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: auto;
+    background: #1A1E2780;
+    z-index: 10;
+    .navbar-mobile-menu{
+      position: absolute;
+      top: 90px;
+      left: 16px;
+      right: 16px;
+      z-index: 20;
+      width: auto;
+      height: auto;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 16px;
+      .menu-item{
+        font-family: 'Noto-regular', sans-serif;
+        display: flex;
+        justify-content: flex-start;
+        gap: 16px;
+        margin-bottom: 16px;
+        img{
+          width: 20px;
+          height: 20px;
+        }
+        span{
+          color: #1A1E27;
+          font-size: 14px;
+          line-height: 20px;
+        }
+        &:last-of-type{
+          margin-bottom: 0;
+        }
+      }
+      .line{
+        position: relative;
+        left: -16px;
+        height: 1px;
+        width: calc(100% + 32px);
+        border: 1px solid #D8DCE2;
+        margin-bottom: 16px;
+      }
+    }
+  }
+  position: absolute;
+  top: 0;
+  padding: 16px;
+  display: flex;
+  width: 100%;
+  &-item{
+    display: flex;
+    align-items: center;
+    position: relative;
+    img{
+      flex-basis: 30%;
+    }
+  }
+  &-search{
+    background-color: white;
+    background-image: url("assets/svg/search.svg");
+    background-repeat: no-repeat;
+    background-position: 90% center;
+    outline: none;
+    border: none;
+    padding: 14px;
+    width: 480px;
+    border-radius: 30px;
+  }
+}
 .navbar{
   position: absolute;
   top: 0;
   padding: 16px;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
   &-item{
     display: flex;
     align-items: center;
@@ -120,11 +260,12 @@ a{
     border-radius: 50%;
     width: 60px;
     height: 60px;
+    cursor: pointer;
   }
   .title-container{
     color:#ffffff;
     position: relative;
-    left: -10px;
+    left: -5px;
     width: fit-content;
     padding: 18px 30px;
     font-size: 20px;
@@ -137,6 +278,7 @@ a{
     padding: 8px 8px;
     font-size: 14px;
     border-radius: 30px;
+    height: 60px;
     color: #595F72;
     width: 285px;
     span{
@@ -156,6 +298,13 @@ a{
   padding: 16px;
   border-radius: 30px;
   background: #F4F6F8;
+  position: relative;
+  .form-a{
+    position: absolute;
+    top: 4px;
+    right: 16px;
+    cursor: pointer;
+  }
   .card-title{
     color:#1A1E27;
     margin-bottom: 16px;
@@ -352,7 +501,7 @@ a{
   }
 
 }
-.city-container{
+.city-container {
   z-index: 5;
   position: absolute;
   font-family: 'Noto-regular', sans-serif;
@@ -362,12 +511,17 @@ a{
   border-radius: 30px;
   width: 480px;
   padding: 16px;
+  display: none;
+  //@media screen and (max-width:  768px) {
+  //  left: 10px;
+  //}
   h2{
     font-size: 24px;
     font-weight: 400;
     line-height: 48px;
     text-align: center;
     margin: 0;
+    color:#1A1E27;
   }
   span{
     font-size: 14px;
@@ -391,4 +545,7 @@ a{
       background: #3F80FF;
     }
   }
+}
+.z-20{
+  z-index: 20;
 }
