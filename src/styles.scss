@@ -60,7 +60,10 @@ a{
     height: 60px;
   }
   @media screen and (max-width: 768px){
-    top: 75%;
+    bottom: 0;
+    left: 25%;
+    flex-direction: row;
+    top:90%;
   }
 }
 .form{
@@ -148,9 +151,9 @@ a{
   min-height: 800px;
   height: 100vh;
   overflow-y: scroll;
-}
-.navbar-fixed{
-
+  @media screen and (max-width: 768px){
+    padding: 0 0 200px;
+  }
 }
 .w-25{
   flex-basis: 25%;
@@ -158,6 +161,12 @@ a{
 .navbar-mobile{
   @media screen and (min-width: 768px){
     display: none;
+  }
+  .logo-container{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
   }
   .navbar-mobile-wrapper{
     position: absolute;
@@ -295,6 +304,7 @@ a{
   }
 }
 .wrapper{
+  margin-top: 92px;
   padding: 16px;
   border-radius: 30px;
   background: #F4F6F8;
@@ -305,12 +315,31 @@ a{
     right: 16px;
     cursor: pointer;
   }
+  .card-list{
+    display: flex;
+    //position: relative;
+    gap: 32px;
+    @media screen and (max-width: 768px){
+      flex-direction: column;
+      margin-top: 16px;
+    }
+  }
   .card-title{
     color:#1A1E27;
     margin-bottom: 16px;
     font-size: 24px;
     font-family: 'Noto-regular', sans-serif;
   }
+  @media screen and (max-width: 768px){
+    margin-top: 16px;
+  }
+}
+.card-grey-bg{
+  background: red;
+  position: absolute;
+  top: 0;
+  height: 200px;
+  width: 100%;
 }
 .card{
   flex-basis: 50%;
@@ -320,6 +349,7 @@ a{
   background: #fff;
   padding: 69px 24px;
   color:#1A1E27;
+
   &-no-top-padding{
     padding-top: 0;
   }

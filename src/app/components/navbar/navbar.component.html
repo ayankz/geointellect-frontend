@@ -22,13 +22,25 @@
   </div>
 </div>
 
-<div class="navbar-mobile">
-  <div class="navbar-mobile-item" #search>
-    <input type="text" class="navbar-mobile-search grow-1" placeholder="Поиск по адресу">
-    @if (!showMobileMenu){
-      <img ngSrc="assets/svg/mobile-menu.svg" class="grow-2" alt="menu" height="56" width="56" (click)="showMobileMenu = !showMobileMenu">
+<div class="navbar-mobile" [ngStyle]="{'position': isAbsolute ? 'absolute' : 'relative'}">
+  <div class="navbar-mobile-item" >
+    @if (showSearch){
+      <input type="text" class="navbar-mobile-search grow-2" placeholder="Поиск по адресу" >
     } @else {
-      <img ngSrc="assets/svg/mobile-menu-close.svg" class="grow-2 z-20" alt="menu" height="56" width="56" (click)="showMobileMenu = !showMobileMenu">
+     <div class="flex center-space-between">
+       <div class="logo-container bg-blue flex center gap-1">
+         <img ngSrc="assets/svg/logo.svg" alt="logo" height="24" width="24">
+       </div>
+       <div class="logo-container" routerLink="/">
+         <img ngSrc="assets/svg/map-mobile-icon.svg" alt="map-logo" height="60" width="60">
+       </div>
+     </div>
+    }
+
+    @if (!showMobileMenu){
+      <img ngSrc="assets/svg/mobile-menu.svg" class="grow-2 z-20" alt="menu" height="60" width="60" (click)="showMobileMenu = !showMobileMenu">
+    } @else {
+      <img ngSrc="assets/svg/mobile-menu-close.svg" class="grow-2 z-20" alt="menu" height="60" width="60" (click)="showMobileMenu = !showMobileMenu">
     }
   </div>
   @if (showMobileMenu){

@@ -37,4 +37,17 @@
       background: #3F80FF
     }
   }
+  @media screen and (max-width: 768px){
+    left: 16px;
+    right: 0;
+    width: calc(100% - 32px);
+    .buttons{
+      display: flex;
+      flex-direction: column;
+     button{
+       padding: 14px;
+       width: 100%;
+     }
+    }
+  }
 }
