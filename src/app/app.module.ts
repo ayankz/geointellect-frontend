@@ -7,6 +7,8 @@ import {MapComponent} from "./components/map/map.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {HintComponent} from "./components/hint/hint.component";
 import {SharedModule} from "./modules/shared/shared.module";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 const routes: Routes = [
   {path: '', redirectTo: 'map', pathMatch:'full'},
@@ -29,12 +31,16 @@ const routes: Routes = [
         CommonModule,
         RouterModule.forRoot(routes),
         NgOptimizedImage,
+      MatExpansionModule,
         SharedModule
     ],
     bootstrap: [AppComponent],
     exports: [
       RouterModule,
       HintComponent
+    ],
+    providers: [
+      provideAnimationsAsync()
     ]
 })
 export class AppModule { }

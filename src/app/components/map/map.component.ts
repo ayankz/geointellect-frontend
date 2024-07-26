@@ -1,5 +1,5 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
-import mapboxgl from "mapbox-gl";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import * as mapboxgl from "mapbox-gl";
 import {environment} from "../../../environments/environment";
 import {MapCenterService} from "../../services/map-center.service";
 
@@ -19,8 +19,10 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapCenterService) {
 
   }
-ngOnInit() {
-  this.map = new mapboxgl.Map({
+  async ngOnInit() {
+    const mapboxgl = await import('mapbox-gl');
+    mapboxgl.accessToken = environment.mapbox.accessToken;
+    this.map = new mapboxgl.Map({
     accessToken: environment.mapbox.accessToken,
     container: 'map',
     style: this.style,

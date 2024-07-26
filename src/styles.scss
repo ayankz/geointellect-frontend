@@ -107,6 +107,7 @@ a{
     select{
       background: white;
       -webkit-appearance: none;
+
     }
 
   }
@@ -314,6 +315,11 @@ a{
     top: 4px;
     right: 16px;
     cursor: pointer;
+    @media screen and (max-width: 768px){
+      bottom: 40px;
+      left: 16px;
+      top: 50px;
+    }
   }
   .card-list{
     display: flex;
@@ -329,6 +335,9 @@ a{
     margin-bottom: 16px;
     font-size: 24px;
     font-family: 'Noto-regular', sans-serif;
+    @media screen and (max-width: 768px){
+      margin-bottom: 32px;
+    }
   }
   @media screen and (max-width: 768px){
     margin-top: 16px;
@@ -579,3 +588,6 @@ a{
 .z-20{
   z-index: 20;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
