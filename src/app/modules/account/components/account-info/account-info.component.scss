@@ -1,0 +1,24 @@
+.profile-settings{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  @media screen and (max-width: 768px){
+    flex-direction: column;
+    width: 100%;
+    .wrapper{
+      width: 100%;
+    }
+    .form{
+      flex-direction: column;
+      .form-control{
+        width: 100%;
+      }
+      .subscribe{
+        display: flex;
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+  }
+}
