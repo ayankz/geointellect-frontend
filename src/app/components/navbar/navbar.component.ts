@@ -10,6 +10,7 @@ export class NavbarComponent {
   @Input() showSearch: boolean = true;
   @Input() isAbsolute: boolean = true;
   public showMobileMenu: boolean = false;
+  public showMainMenu: boolean = false;
   constructor(private route: ActivatedRoute,private router: Router) {
 
   }

@@ -8,7 +8,14 @@ import {NavbarComponent} from "./components/navbar/navbar.component";
 import {HintComponent} from "./components/hint/hint.component";
 import {SharedModule} from "./modules/shared/shared.module";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import {MatExpansionModule} from "@angular/material/expansion";
+import {
+  MatAccordion,
+  MatExpansionModule,
+  MatExpansionPanel, MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
+import {InfoModule} from "./modules/info/info.module";
 
 const routes: Routes = [
   {path: '', redirectTo: 'map', pathMatch:'full'},
@@ -22,22 +29,24 @@ const routes: Routes = [
   {path: 'account', loadChildren : () =>
       import('./modules/account/account.module')
         .then((m) => m.AccountModule)},
+  {path: 'info', loadChildren : () =>
+      import('./modules/info/info.module')
+        .then((m) => m.InfoModule)},
 ];
 
 @NgModule({
     declarations: [AppComponent, MapComponent,HintComponent],
-    imports: [
-        BrowserModule,
-        CommonModule,
-        RouterModule.forRoot(routes),
-        NgOptimizedImage,
-      MatExpansionModule,
-        SharedModule
-    ],
+  imports: [
+    BrowserModule,
+    CommonModule,
+    RouterModule.forRoot(routes),
+    NgOptimizedImage,
+    SharedModule,
+  ],
     bootstrap: [AppComponent],
     exports: [
       RouterModule,
-      HintComponent
+      HintComponent,
     ],
     providers: [
       provideAnimationsAsync()

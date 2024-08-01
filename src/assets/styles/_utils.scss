@@ -46,6 +46,9 @@
 .gap-2{
   gap: 32px;
 }
+.mb-16{
+  margin-bottom: 16px;
+}
 .mb-24{
   margin-bottom: 24px;
 }
@@ -78,7 +81,9 @@
     width: 100%;
   }
 }
-
+.pointer{
+  cursor: pointer;
+}
 .pt-0{
   padding-top: 0;
 }

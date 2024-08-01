@@ -16,14 +16,33 @@
      <span routerLink="/reports" routerLinkActive="active">Отчеты</span>
      <span routerLink="/prices" routerLinkActive="active" >Цены</span>
     </div>
-    <div class="logo-container bg-grey flex center" routerLink="/account">
+    <div class="logo-container bg-grey flex center" (click)="showMainMenu = !showMainMenu">
       <img ngSrc="assets/svg/user-logo.svg" alt="user" height="24" width="24">
+      @if(showMainMenu){
+        <div class="main-menu">
+          <div class="flex-col gap-1">
+            <div class="flex gap-1" routerLink="/account">
+              <img ngSrc="assets/svg/user-logo.svg" alt="user" height="20" width="20">
+              <span>Личный кабинет</span>
+            </div>
+            <div class="flex gap-1" routerLink="/info">
+              <img ngSrc="assets/svg/question.svg" alt="user" height="20" width="20">
+              <span>Помощь</span>
+            </div>
+            <div class="divider"></div>
+            <div class="flex gap-1">
+              <img ngSrc="assets/svg/user-logo.svg" alt="user" height="20" width="20">
+              <span>Выход</span>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   </div>
 </div>
 
 <div class="navbar-mobile" [ngStyle]="{'position': isAbsolute ? 'absolute' : 'relative'}">
-  <div class="navbar-mobile-item" >
+  <div class="navbar-mobile-item">
     @if (showSearch){
       <input type="text" class="navbar-mobile-search grow-2" placeholder="Поиск по адресу" >
     } @else {
@@ -36,7 +55,6 @@
        </div>
      </div>
     }
-
     @if (!showMobileMenu){
       <img ngSrc="assets/svg/mobile-menu.svg" class="grow-2 z-20" alt="menu" height="60" width="60" (click)="showMobileMenu = !showMobileMenu">
     } @else {
@@ -48,24 +66,24 @@
        <div class="navbar-mobile-menu flex-col">
           <div class="menu-item">
             <img ngSrc="assets/svg/map-icon.svg" alt="map" height="20" width="20">
-            <span routerLink="/map" (click)="showMobileMenu = !showMobileMenu">Карта</span>
+            <span routerLink="/map" >Карта</span>
           </div>
          <div class="menu-item">
            <img ngSrc="assets/svg/report-icon.svg" alt="report" height="20" width="20">
-           <span routerLink="/reports" (click)="showMobileMenu = !showMobileMenu">Отчеты</span>
+           <span routerLink="/reports" >Отчеты</span>
          </div>
          <div class="menu-item">
            <img ngSrc="assets/svg/price-icon.svg" alt="report" height="20" width="20">
-           <span routerLink="/prices" (click)="showMobileMenu = !showMobileMenu">Цены</span>
+           <span routerLink="/prices">Цены</span>
          </div>
          <div class="line"></div>
          <div class="menu-item">
            <img ngSrc="assets/svg/info-icon.svg" alt="map" height="20" width="20">
-           <span routerLink="/account" (click)="showMobileMenu = !showMobileMenu">Личный кабинет</span>
+           <span routerLink="/account" >Личный кабинет</span>
          </div>
          <div class="menu-item">
            <img ngSrc="assets/svg/help-icon.svg" alt="report" height="20" width="20">
-           <span (click)="showMobileMenu = !showMobileMenu">Помощь</span>
+           <span  routerLink="/info" >Помощь</span>
          </div>
          <div class="line"></div>
          <div class="menu-item">
