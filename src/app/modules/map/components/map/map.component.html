@@ -1,0 +1,58 @@
+<div id="map" class="map match-parent"></div>
+<app-navbar
+  (emitQuery)="search($event)"
+  (emitCoordinates)="moveTo($event)"
+  [searchResult$]="searchItems$"></app-navbar>
+<ng-container *ngIf="layers$ | async as groupedLayers">
+  <div class="map-menu flex-col gap-half">
+    <div
+      class="map-menu-item center"
+      (click)="getLayerItems(group.groupNameForMain, group.layers)"
+      *ngFor="let group of groupedLayers; let i = index"
+      [matTooltip]="group.groupNameForMain"
+      [matTooltipPosition]="'after'">
+      <img *ngIf="i === 1" src="assets/svg/competitors.svg" alt="" />
+      <img *ngIf="i === 0" src="assets/svg/ideas.svg" alt="" />
+    </div>
+  </div>
+  <div class="map-submenu" *ngIf="competitors.length > 1">
+    <img
+      class="close"
+      src="assets/svg/close.svg"
+      alt="close"
+      (click)="onClose()" />
+    <h2>{{ title }}</h2>
+    <div class="flex-col gap-1">
+      <ng-container *ngFor="let competitor of competitors; let i = index">
+        <div class="item">
+          <img [src]="layerIcons[i % layerIcons.length]" alt="" />
+          <span>{{ competitor.name }}</span>
+          <input type="checkbox" (click)="selectLayerIds($event, competitor)" />
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+<ng-template #modalTemplate let-layer>
+  <div class="title">
+    <span>{{ selectedAddress$ | async }}</span>
+    <span>{{ selectedCoordinates$ | async }}</span>
+  </div>
+  <div class="flex-col gap-1">
+    <div>
+      <div
+        class="flex gap-1 start-center"
+        *ngFor="let layer of commonLayers.layers">
+        <img src="assets/svg/house.svg" alt="icon" width="30" height="auto" />
+        <input
+          type="checkbox"
+          [value]="layer"
+          (click)="onCheckboxClick($event, layer)" />
+        <p>{{ layer.name }}</p>
+      </div>
+    </div>
+    <div class="btn btn-long" (click)="onCreateReport($event)">
+      Хочу полный отчет
+    </div>
+  </div>
+</ng-template>

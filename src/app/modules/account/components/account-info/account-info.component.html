@@ -3,33 +3,29 @@
   <app-active-package-info></app-active-package-info>
   <div class="wrapper">
     <a class="form-a">Изменить пароль</a>
-    <div class="card-title">
-      Личные данные
-    </div>
+    <div class="card-title">Личные данные</div>
     <div class="form">
       <div class="form-control">
         <label> Эл.почта</label>
-        <input type="email" placeholder="Ваш email">
+        <input type="email" placeholder="Ваш email" />
       </div>
       <div class="form-control">
         <label>Имя</label>
-        <input type="text" placeholder="Ваше имя">
+        <input type="text" placeholder="Ваше имя" />
       </div>
       <div class="form-control">
         <label>Фамилия</label>
-        <input type="text" placeholder="Ваше фамилия">
+        <input type="text" placeholder="Ваше фамилия" />
       </div>
       <div class="form-control">
         <label>Телефон</label>
-        <input type="tel" placeholder="Ваше номер телефона">
+        <input type="tel" placeholder="Ваше номер телефона" />
       </div>
     </div>
   </div>
   <div class="profile-settings flex center-space-between gap-1">
     <div class="wrapper grow-1">
-      <div class="card-title">
-        Настройки профиля
-      </div>
+      <div class="card-title">Настройки профиля</div>
       <div class="form">
         <div class="form-control">
           <label>Язык платформы</label>
@@ -37,7 +33,7 @@
             <option>Русский</option>
             <option>Казахский</option>
           </select>
-          <img src="assets/svg/arrow-down.svg" alt="">
+          <img src="assets/svg/arrow-down.svg" alt="" />
         </div>
         <div class="form-control">
           <label>Город по умолчанию</label>
@@ -46,14 +42,12 @@
             <option>Алматы</option>
             <option>Шымкент</option>
           </select>
-          <img src="assets/svg/arrow-down.svg" alt="">
+          <img src="assets/svg/arrow-down.svg" alt="" />
         </div>
       </div>
     </div>
     <div class="wrapper grow-1">
-      <div class="card-title">
-        Настройки профиля
-      </div>
+      <div class="card-title">Настройки профиля</div>
       <div class="form">
         <div class="form-control">
           <label>Текущий тариф</label>
@@ -61,14 +55,20 @@
             <option>Бизнес</option>
             <option>Стандарт</option>
           </select>
-          <img src="assets/svg/arrow-down.svg" alt="">
+          <img src="assets/svg/arrow-down.svg" alt="" />
         </div>
         <div class="subscribe flex center-space-between gap-1">
           <span>Отменить подписку</span>
-          @if(subscribe){
-            <img src="assets/svg/toggle-on.svg" alt="icon" (click)="subscribe = !subscribe">
+          @if (subscribe) {
+            <img
+              src="assets/svg/toggle-on.svg"
+              alt="icon"
+              (click)="subscribe = !subscribe" />
           } @else {
-            <img src="assets/svg/toggle-off.svg" alt="icon" (click)="subscribe = !subscribe">
+            <img
+              src="assets/svg/toggle-off.svg"
+              alt="icon"
+              (click)="subscribe = !subscribe" />
           }
         </div>
       </div>
@@ -78,28 +78,27 @@
     <span class="font-14">GeoIntellect всегда на связи</span>
     <div class="form-control">
       <h3>
-        Если у вас остались вопросы, получите бесплатную консультацию. Заполните форму обратной связи ниже,
-        напишите нам на эл. почту <a [innerHTML]="'custdev@geoanalitica.kz'"> </a> или свяжитесь с нами по телефону: <a
-        [innerHTML]="'+7 (777) 712-34-56.'" href=""></a>
+        Если у вас остались вопросы, получите бесплатную консультацию. Заполните
+        форму обратной связи ниже, напишите нам на эл. почту
+        <a [innerHTML]="'custdev@geoanalitica.kz'"> </a> или свяжитесь с нами по
+        телефону: <a [innerHTML]="'+7 (777) 712-34-56.'" href=""></a>
       </h3>
     </div>
   </div>
   <div class="wrapper mb-40">
-    <div class="card-title">
-      Форма обратной связи
-    </div>
+    <div class="card-title">Форма обратной связи</div>
     <div class="form">
       <div class="form-control">
         <label>Ваше имя</label>
-        <input type="text" placeholder="Ваше имя">
+        <input type="text" placeholder="Ваше имя" />
       </div>
       <div class="form-control">
         <label>Номер телефона</label>
-        <input type="tel" placeholder="+7 (777) 123-45-67">
+        <input type="tel" placeholder="+7 (777) 123-45-67" />
       </div>
       <div class="form-control">
         <label>Эл.почта</label>
-        <input type="tel" placeholder="geouser@gmail.com">
+        <input type="tel" placeholder="geouser@gmail.com" />
       </div>
       <div class="form-control w-70">
         <label>Сообщение</label>

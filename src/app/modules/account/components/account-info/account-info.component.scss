@@ -1,20 +1,20 @@
-.profile-settings{
+.profile-settings {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     flex-direction: column;
     width: 100%;
-    .wrapper{
+    .wrapper {
       width: 100%;
     }
-    .form{
+    .form {
       flex-direction: column;
-      .form-control{
+      .form-control {
         width: 100%;
       }
-      .subscribe{
+      .subscribe {
         display: flex;
         width: 100%;
         justify-content: flex-start;

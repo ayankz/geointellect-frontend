@@ -8,10 +8,9 @@ describe('ActivePackageInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActivePackageInfoComponent]
-    })
-    .compileComponents();
-    
+      imports: [ActivePackageInfoComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ActivePackageInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

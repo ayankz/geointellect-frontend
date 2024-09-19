@@ -1,22 +1,21 @@
-.info-container{
+.info-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
   margin-top: 16px;
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     flex-direction: column;
     padding: 0 16px;
     align-items: flex-start;
     gap: 16px;
   }
-  &__data{
+  &__data {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
-    @media screen and (max-width: 768px){
-
+    @media screen and (max-width: 768px) {
       flex-direction: column;
       & > div {
         width: 100%;

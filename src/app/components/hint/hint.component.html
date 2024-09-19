@@ -1,32 +1,41 @@
-<div class="hint-wrapper" #wrapper>
-
-</div>
+<div class="hint-wrapper" #wrapper></div>
 <div class="city-container flex-col center gap-1" *ngIf="!citySelected">
   <h2>Укажите ваш город</h2>
-  <img src="assets/svg/location.svg" alt="">
+  <img src="assets/svg/location.svg" alt="" />
   <span>Казахстан</span>
   <div class="flex gap-quarter">
-    <ng-container *ngFor="let city of cities; let i = index;">
-      <div [id]="i+1" [ngClass]="city.active ? 'city city_active' : 'city'" (click)="setActiveCity(i)">{{city.name}}</div>
+    <ng-container *ngFor="let city of cities; let i = index">
+      <div
+        [id]="i + 1"
+        [ngClass]="city.active ? 'city city_active' : 'city'"
+        (click)="setActiveCity(i)">
+        {{ city.name }}
+      </div>
     </ng-container>
   </div>
 </div>
 <div class="hint-search-container" #hint>
   <h3>Начало работы</h3>
-  <p>Подсказка {{this.step}} из 3</p>
-  <span>Введите адрес в строку поиска или <br> поставьте точку на карте.</span>
+  <p>Подсказка {{ this.step }} из 3</p>
+  <span
+    >Введите адрес в строку поиска или <br />
+    поставьте точку на карте.</span
+  >
   <div class="buttons">
-    <button  (click)="close()">Закрыть</button>
+    <button (click)="close()">Закрыть</button>
     <button class="active" (click)="next(this.step + 1)">Далее</button>
   </div>
 </div>
 <div class="hint-search-container_large" #hintLarge>
   <h3>Начало работы</h3>
-  <p>Подсказка {{this.step}} из 3</p>
+  <p>Подсказка {{ this.step }} из 3</p>
   <div class="nest-image">
-    <img src="assets/images/report.png" alt="">
+    <img src="assets/images/report.png" alt="" />
   </div>
-  <span>Получите интересующие данные, сохраняйте отчеты, сравнивайте локации между собой.</span>
+  <span
+    >Получите интересующие данные, сохраняйте отчеты, сравнивайте локации между
+    собой.</span
+  >
   <div class="buttons">
     <button (click)="close()">Закрыть</button>
     <button class="active" (click)="next(this.step + 1)">Далее</button>

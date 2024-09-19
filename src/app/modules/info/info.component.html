@@ -3,12 +3,19 @@
   <div class="wrapper">
     <div class="flex center-space-between">
       <div class="card-title">Помощь</div>
-      <img src="assets/svg/map-link.svg" class="mb-16 pointer" routerLink="/map">
+      <img
+        src="assets/svg/map-link.svg"
+        class="mb-16 pointer"
+        routerLink="/map" />
     </div>
     <div class="card-extension-list flex-col gap-1">
-      @for (value of getEnumValues(); track value; let first = $first){
-        <app-expanded-card [open]="first" [title]="value" [description]="DESCRIPTION.ENTER_DESCRIPTION" imageUrl="info-enter">
-          <img src="assets/images/info-enter.png" alt="">
+      @for (value of getEnumValues(); track value; let first = $first) {
+        <app-expanded-card
+          [open]="first"
+          [title]="value"
+          [description]="DESCRIPTION.ENTER_DESCRIPTION"
+          imageUrl="info-enter">
+          <img src="assets/images/info-enter.png" alt="" />
         </app-expanded-card>
       }
     </div>

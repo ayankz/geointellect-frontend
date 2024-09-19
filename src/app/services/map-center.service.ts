@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MapCenterService {
-  public center = new BehaviorSubject([51.128404 ,71.427528])
-  constructor() { }
-  setCenter(value: number[]){
-    this.center.next(value);
+  private _center: number[] = [76.91460453983467, 43.236888288571514];
+  set center(value: number[]) {
+    this._center = value;
   }
-  getCenter(){
-    return this.center as Observable<number[]>;
+  get center(): number[] {
+    return this._center;
   }
 }
