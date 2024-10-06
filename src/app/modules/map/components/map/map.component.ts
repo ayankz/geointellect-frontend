@@ -10,12 +10,14 @@ import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../../../environments/environment';
 import { MapCenterService } from '../../../../services/map-center.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { LayersResponse } from '../../types/layers-response';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { GroupName } from '../../enum/type';
 import { GeocodeService } from '../../../../services/geocode.service';
 import { GeocodeItem } from '../../../../types/geocode-result';
+import { Layers } from '../../enum/layers';
+import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-map',
@@ -26,16 +28,24 @@ export class MapComponent implements OnInit {
   @ViewChild('modalContent', { static: false }) modalContent!: ElementRef;
   @ViewChild('modalTemplate', { read: TemplateRef })
   modalTemplate!: TemplateRef<any>;
-
+  testUser = {
+    username: 'string',
+    password: 'string',
+  };
   map: mapboxgl.Map | undefined;
   geocoder: MapboxGeocoder | undefined;
   layers$: Observable<any> = this.getLayers();
   competitors: any[] = [];
   layerIcons: string[] = [
-    'assets/svg/layer1.svg',
-    'assets/svg/layer2.svg',
-    'assets/svg/layer3.svg',
-    'assets/svg/layer4.svg',
+    Layers.FIRST,
+    Layers.SECOND,
+    Layers.THIRD,
+    Layers.FOURTH,
+  ];
+  commonIcons = [
+    Layers.COMMON_first,
+    Layers.COMMON_second,
+    Layers.COMMON_third,
   ];
   commonLayers: {
     groupIdForMain: number | null;
@@ -54,6 +64,7 @@ export class MapComponent implements OnInit {
     private geocodeService: GeocodeService,
     private viewContainerRef: ViewContainerRef
   ) {}
+
   ngOnInit() {
     this.selectedAddress$ = this.geocodeService.selectedAddress$;
     this.selectedCoordinates$ = this.geocodeService.selectedLngLtd$;
@@ -61,7 +72,9 @@ export class MapComponent implements OnInit {
     const center = this.mapService.center as [number, number];
     this.map?.setCenter(center);
     this.getLayers();
+    this.layersIds = [];
   }
+
   initializeMap() {
     this.map = new mapboxgl.Map({
       accessToken: environment.mapbox.accessToken,
@@ -69,10 +82,11 @@ export class MapComponent implements OnInit {
       style: environment.mapbox.style,
       zoom: 12,
     });
-    this.map?.on('click', event => {
+    this.map.on('click', event => {
       this.geocodeService.getReverseGeocode(event.lngLat).subscribe(r => {
         if (r) {
-          this.addMarkerWithTemplate(event);
+          this.map?.setCenter([event.lngLat.lng, event.lngLat.lat]);
+          this.addMarkerWithTemplate(event.lngLat);
         }
       });
     });
@@ -85,31 +99,36 @@ export class MapComponent implements OnInit {
       language: 'ru',
       types: 'address',
       zoom: 14,
-      proximity: {
-        longitude: 76.928, // Долгота для центра Алматы
-        latitude: 43.236, // Широта для центра Алматы
-      },
     });
     this.map?.addControl(this.geocoder);
   }
+
   search(event: string) {
     this.clearMarkers();
+    this.onClose();
     this.searchItems$ = this.geocodeService.searchByQuery(event);
   }
-  moveTo(event: { lat: number; lng: number }) {
+
+  moveTo(event: any, title: string) {
+    this.geocodeService.selectedAddress = title;
     const { lat, lng } = event;
+    this.addMarkerWithTemplate(event);
     this.map?.flyTo({
       center: [lng, lat],
       zoom: 16,
     });
   }
+
   addMarkerWithTemplate(event: any) {
     this.searchItems$ = null;
     this.clearMarkers();
-    const coordinates = event.lngLat;
+    const coordinates = event;
     this.pointCoordinates = { lat: coordinates.lat, lng: coordinates.lng };
     const markerElement = document.createElement('div');
     const modalDiv = document.createElement('div');
+    modalDiv.addEventListener('click', (event: Event) =>
+      event.stopPropagation()
+    );
     markerElement.classList.add('marker');
     modalDiv.classList.add('modal');
     this.renderTemplateToElement(modalDiv, { name: 'Layer Example' });
@@ -120,6 +139,7 @@ export class MapComponent implements OnInit {
       .setLngLat([coordinates.lng, coordinates.lat])
       .addTo(this.map!);
   }
+
   renderTemplateToElement(element: HTMLElement, context: any) {
     const embeddedView = this.modalTemplate.createEmbeddedView({
       $implicit: context,
@@ -129,14 +149,14 @@ export class MapComponent implements OnInit {
       element.appendChild(node);
     });
   }
+
   getLayers(): Observable<any[]> {
-    const layerListUrl =
-      'https://geo-intellect-e1414ec9c703.herokuapp.com/layers/list';
+    const layerListUrl = 'http://194.32.141.100:8081/layers/list';
     return this.http.post<LayersResponse>(layerListUrl, {}).pipe(
       map((layers: LayersResponse) => {
         return Object.values(
           layers.results.reduce(
-            (acc: any, el: any) => {
+            (acc: any, el: any, currentIndex: number) => {
               if (el.groupNameForMain != GroupName.COMMON) {
                 const groupId = el.groupIdForMain;
                 if (!acc[groupId]) {
@@ -173,9 +193,11 @@ export class MapComponent implements OnInit {
       })
     );
   }
+
   onClose(): void {
     this.competitors = [];
   }
+
   clearMarkers() {
     const markerElements = document.querySelectorAll('.marker');
     const modalDivs = document.querySelectorAll('.modal');
@@ -188,10 +210,12 @@ export class MapComponent implements OnInit {
       });
     }
   }
+
   getLayerItems(name: string, layers: any) {
     this.title = name;
     this.competitors = [...layers];
   }
+
   onCheckboxClick(event: any, layer: any) {
     event.stopPropagation();
     if (event.target.checked) {
@@ -200,9 +224,17 @@ export class MapComponent implements OnInit {
       this.layersIds = this.layersIds.filter(id => id !== layer.layerId);
     }
   }
+
   selectLayerIds(event: MouseEvent, layer: { name: string }) {}
+
   onCreateReport(event: MouseEvent) {
     event.stopPropagation();
+    if (sessionStorage.getItem('token')) {
+    }
+    console.log(this.layersIds);
+    console.log(this.testUser);
+    console.log();
+    // event.stopPropagation();
     // this.http.post('https://geo-intellect-e1414ec9c703.herokuapp.com/report/create-in-radius', {
     //   layerId: this.layersIds[0],
     //   longitude: this.pointCoordinates?.lng,

@@ -65,6 +65,9 @@
 .pb-24 {
   padding-bottom: 24px;
 }
+.text-center{
+  text-align: center;
+}
 .btn {
   border: none;
   text-align: center;
@@ -114,11 +117,17 @@
 .grow-1 {
   flex-grow: 1;
 }
+.wrap{
+  flex-wrap: wrap;
+}
 .grow-2 {
   flex-grow: 2;
 }
 .w-70 {
   width: 60%;
+}
+.basis-50{
+  flex-basis: 50%;
 }
 .p-16 {
   padding: 16px;

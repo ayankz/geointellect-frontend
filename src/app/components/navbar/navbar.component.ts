@@ -29,8 +29,8 @@ export class NavbarComponent {
       this.searchResult$ = null;
     }
   }
-  flyMap(position: { lat: number; lng: number }) {
-    this.emitCoordinates.emit(position);
+  flyMap(position: any, title: string) {
+    this.emitCoordinates.emit({ position, title });
   }
 
   protected readonly length = length;

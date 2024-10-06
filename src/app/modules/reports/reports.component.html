@@ -1,19 +1,100 @@
 <app-navbar [isAbsolute]="false" [showSearch]="false"></app-navbar>
 <div class="top-layout">
   <div class="wrapper">
-    <div class="card-title">Мои отчеты</div>
-    <div class="card flex-col center gap-1">
-      <div class="card-empty-icon center flex">
-        <img src="./assets/svg/ticket.svg" alt="" />
-      </div>
-      <div class="card-content flex-col center">
-        <span>У вас еще нет сохраненных отчетов.</span>
-        <span class="font-14 grey-color"
-          >Здесь вы можете хранить ваши отчеты и сравнивать их между
-          собой.</span
-        >
-      </div>
-      <div class="btn" routerLink="/map">Создать отчет на карте</div>
+    <div class="card-title flex center-space-between">
+      <span>Мои отчеты</span>
+      @if (reports!.length > 1) {
+        @if (!isAbilityToSelect) {
+          <div class="btn" (click)="onChange()">
+            Выбрать отчеты для сравнения
+          </div>
+        } @else {
+          <div class="flex center-space-between select-active">
+            <span class="grow-1">Выберите отчеты для сравнения.</span>
+            <span (click)="onChange()">Отмена</span>
+          </div>
+        }
+      }
     </div>
+
+    @if (!reports) {
+      <div class="card flex-col center gap-1">
+        <div class="card-empty-icon center flex">
+          <img src="./assets/svg/ticket.svg" alt="" />
+        </div>
+        <div class="card-content flex-col center">
+          <span>У вас еще нет сохраненных отчетов.</span>
+          <span class="font-14 grey-color"
+            >Здесь вы можете хранить ваши отчеты и сравнивать их между
+            собой.</span
+          >
+        </div>
+        <div class="btn" routerLink="/map">Создать отчет на карте</div>
+      </div>
+    } @else {
+      <div class="report-list gap-1">
+        @for (report of reports; track report.id) {
+          <div class="report-card flex-col gap-1">
+            @if (isAbilityToSelect) {
+              <div class="radio-btn" (click)="setActive(report)">
+                @if (report.isSelected) {
+                  <img src="assets/svg/done-active.svg" alt="" />
+                } @else {
+                  <img src="assets/svg/done.svg" alt="" />
+                }
+              </div>
+            }
+            <img [src]="report.imageName" alt="reportImage" />
+            <div>
+              <span>{{ report.address }}</span>
+              <p>{{ report.date }}</p>
+            </div>
+            <div class="report-card__action">
+              <div class="btn" (click)="showDetails = true">Открыть отчет</div>
+              <img
+                (click)="openModal()"
+                src="assets/svg/delete.svg"
+                alt="deleteReport" />
+            </div>
+          </div>
+        }
+      </div>
+    }
   </div>
+  @if (isAbilityToSelect) {
+    <div class="bottom-container">
+      <div class="bottom-container-btn">
+        <span>Выбрано отчетов</span>
+        <p>{{ selectedReports.length }}</p>
+      </div>
+      <div
+        [class]="
+          selectedReports.length === 2
+            ? 'bottom-container-btn bottom-container-btn__blue'
+            : 'bottom-container-btn'
+        "
+        *ngIf="selectedReports.length < 3">
+        <span>Сравнить отчеты</span>
+      </div>
+      <div
+        [class]="
+          selectedReports.length > 1
+            ? 'bottom-container-btn bottom-container-btn__active'
+            : 'bottom-container-btn'
+        ">
+        <span>Скачать сравнение</span>
+      </div>
+      <img (click)="onChange()" src="assets/svg/close-bottom.svg" alt="" />
+    </div>
+    <div class="bottom-container__mobile">
+      <h4>Выбрано отчетов: {{ selectedReports.length }}</h4>
+      <div class="flex center-space-between w-100 gap-half">
+        <div class="basis-50 text-center" #compareBtn>Сравнить</div>
+        <div class="basis-50 text-center" #downloadBtn>Скачать</div>
+      </div>
+    </div>
+  }
+  <ng-container *ngIf="showDetails">
+    <app-report-details (close)="showDetails = false"></app-report-details>
+  </ng-container>
 </div>

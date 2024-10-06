@@ -1,7 +1,7 @@
 <div id="map" class="map match-parent"></div>
 <app-navbar
   (emitQuery)="search($event)"
-  (emitCoordinates)="moveTo($event)"
+  (emitCoordinates)="moveTo($event.position, $event.title)"
   [searchResult$]="searchItems$"></app-navbar>
 <ng-container *ngIf="layers$ | async as groupedLayers">
   <div class="map-menu flex-col gap-half">
@@ -39,16 +39,16 @@
     <span>{{ selectedCoordinates$ | async }}</span>
   </div>
   <div class="flex-col gap-1">
-    <div>
+    <div class="flex-col gap-quarter start">
       <div
         class="flex gap-1 start-center"
-        *ngFor="let layer of commonLayers.layers">
-        <img src="assets/svg/house.svg" alt="icon" width="30" height="auto" />
+        *ngFor="let layer of commonLayers.layers; let i = index">
+        <img [src]="commonIcons[i]" alt="icon" width="30" height="auto" />
+        <p class="grow-1">{{ layer.name }}</p>
         <input
           type="checkbox"
           [value]="layer"
           (click)="onCheckboxClick($event, layer)" />
-        <p>{{ layer.name }}</p>
       </div>
     </div>
     <div class="btn btn-long" (click)="onCreateReport($event)">

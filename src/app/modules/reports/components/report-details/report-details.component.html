@@ -1,0 +1,66 @@
+<div class="grey-wrapper">
+  <div class="report-detail-container">
+    <img
+      (click)="onClose()"
+      class="close"
+      src="assets/svg/close-bottom.svg"
+      alt="close" />
+    <div class="flex-col">
+      <img
+        class="detail-img"
+        src="assets/images/test_report_remove.png"
+        alt="" />
+      <div class="flex center-space-between left p-16">
+        <div class="basis-50 flex-col gap-1">
+          <div>
+            <h4>Отчет от 21.04.2024</h4>
+            <span>Астана, Ельский р-н, ул. Бостандыкова 132</span>
+            <p style="color: #8e95a3">51.11818 - 71.42418</p>
+          </div>
+          <div class="flex-col gap-quarter">
+            <p><strong>Численность:</strong> 123 456 человек</p>
+            <p><strong> Пеший трафик:</strong> 5 балов</p>
+            <p><strong>Генераторы трафика:</strong> 12 балов</p>
+            <p><strong>Численность:</strong> 123 456 человек</p>
+            <p><strong>Пеший трафик:</strong> 5 балов</p>
+            <p><strong>Генераторы трафика:</strong> 12 балов</p>
+          </div>
+        </div>
+        <div class="btn flex gap-1 center-space-between">
+          <img src="assets/svg/pdf.svg" alt="" />
+          <span>Скачать PDF</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="report-detail-container__mobile flex-col gap-1">
+    <div class="flex center-space-between">
+      <h4>Отчет от 21.04.2024</h4>
+      <img
+        (click)="onClose()"
+        class="close"
+        src="assets/svg/close.svg"
+        alt="close" />
+    </div>
+    <img
+      class="detail-img"
+      src="assets/images/test_report_remove.png"
+      alt="test" />
+    <div>
+      <span>Астана, Ельский р-н, ул. Бостандыкова 132</span>
+      <p style="color: #8e95a3">51.11818 - 71.42418</p>
+    </div>
+    <div class="flex-col gap-quarter">
+      <p><strong>Численность:</strong> 123 456 человек</p>
+      <p><strong> Пеший трафик:</strong> 5 балов</p>
+      <p><strong>Генераторы трафика:</strong> 12 балов</p>
+      <p><strong>Численность:</strong> 123 456 человек</p>
+      <p><strong>Пеший трафик:</strong> 5 балов</p>
+      <p><strong>Генераторы трафика:</strong> 12 балов</p>
+    </div>
+    <div class="btn flex gap-1 center">
+      <img src="assets/svg/pdf.svg" alt="" />
+      <span>Скачать PDF</span>
+    </div>
+  </div>
+</div>

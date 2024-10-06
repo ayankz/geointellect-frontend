@@ -18,12 +18,12 @@
       [(ngModel)]="searchQuery"
       (ngModelChange)="onSearchChange($event)" />
     <div class="search-results" *ngIf="searchResult$ | async">
-      <div *ngIf="(searchResult$ | async)!.length === 0" class="nodata">
+      <div *ngIf="(searchResult$ | async)?.length === 0" class="nodata">
         Поиск не дал результатов
       </div>
       <span
         *ngFor="let result of searchResult$ | async"
-        (click)="flyMap(result.position)"
+        (click)="flyMap(result.position, result.title)"
         >{{ result.title }}</span
       >
     </div>
@@ -85,12 +85,12 @@
         [(ngModel)]="searchQuery"
         (ngModelChange)="onSearchChange($event)" />
       <div class="search-results" *ngIf="searchResult$ | async">
-        <div *ngIf="(searchResult$ | async)!.length === 0" class="nodata">
+        <div *ngIf="(searchResult$ | async)?.length === 0" class="nodata">
           Поиск не дал результатов
         </div>
         <span
           *ngFor="let result of searchResult$ | async"
-          (click)="flyMap(result.position)"
+          (click)="flyMap(result, result.title)"
           >{{ result.title }}</span
         >
       </div>
