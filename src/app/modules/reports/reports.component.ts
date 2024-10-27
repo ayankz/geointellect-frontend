@@ -1,6 +1,16 @@
-import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  signal,
+  TemplateRef,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RemoveModalComponent } from './components/remove-modal/remove-modal.component';
+import { ReportService } from '../../services/report.service';
+import { Report } from '../../types/report';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-reports',
@@ -10,36 +20,20 @@ import { RemoveModalComponent } from './components/remove-modal/remove-modal.com
 export class ReportsComponent {
   @ViewChild('compareBtn') compareBtn!: ElementRef;
   @ViewChild('downloadBtn') downloadBtn!: ElementRef;
-  constructor(private dialog: MatDialog) {}
   public isAbilityToSelect = false;
   public showDetails = false;
   public selectedReports: any[] = [];
-  public reports: any[] = [
-    {
-      address: 'Астана, Ельский р-н, ул. Бостандыкова 132',
-      date: '21 дек. 2024',
-      imageName: 'assets/images/report_1.png',
-      isSelected: false,
-    },
-    {
-      address: 'Астана, Ельский р-н, ул. Бостандыкова 132',
-      date: '21 дек. 2024',
-      imageName: 'assets/images/report_1.png',
-      isSelected: false,
-    },
-    {
-      address: 'Астана, Ельский р-н, ул. Бостандыкова 132',
-      date: '21 дек. 2024',
-      imageName: 'assets/images/report_1.png',
-      isSelected: false,
-    },
-    {
-      address: 'Астана, Ельский р-н, ул. Бостандыкова 132',
-      date: '21 дек. 2024',
-      imageName: 'assets/images/report_1.png',
-      isSelected: false,
-    },
-  ];
+  public reports: any[] = [];
+  constructor(
+    private dialog: MatDialog,
+    private reportService: ReportService
+  ) {
+    this.reportService.reports.subscribe(reports => (this.reports = reports));
+  }
+  openReportDetail(report: Report) {
+    this.reportService.setSelectedReport(report);
+    this.showDetails = true;
+  }
   openModal() {
     this.dialog
       .open(RemoveModalComponent, {

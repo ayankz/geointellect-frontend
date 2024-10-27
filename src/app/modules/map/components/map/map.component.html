@@ -15,7 +15,7 @@
       <img *ngIf="i === 0" src="assets/svg/ideas.svg" alt="" />
     </div>
   </div>
-  <div class="map-submenu" *ngIf="competitors.length > 1">
+  <div class="map-submenu" *ngIf="competitors.length > 1 && showLayers">
     <img
       class="close"
       src="assets/svg/close.svg"
@@ -48,6 +48,7 @@
         <input
           type="checkbox"
           [value]="layer"
+          checked
           (click)="onCheckboxClick($event, layer)" />
       </div>
     </div>

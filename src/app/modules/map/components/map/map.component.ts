@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   OnInit,
+  Renderer2,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
@@ -10,14 +11,14 @@ import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../../../environments/environment';
 import { MapCenterService } from '../../../../services/map-center.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { LayersResponse } from '../../types/layers-response';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { GroupName } from '../../enum/type';
 import { GeocodeService } from '../../../../services/geocode.service';
 import { GeocodeItem } from '../../../../types/geocode-result';
 import { Layers } from '../../enum/layers';
-import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-map',
@@ -25,7 +26,9 @@ import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
   styleUrl: './map.component.scss',
 })
 export class MapComponent implements OnInit {
-  @ViewChild('modalContent', { static: false }) modalContent!: ElementRef;
+  text: string = '';
+  token: string = '';
+  showLayers: boolean = true;
   @ViewChild('modalTemplate', { read: TemplateRef })
   modalTemplate!: TemplateRef<any>;
   testUser = {
@@ -34,6 +37,7 @@ export class MapComponent implements OnInit {
   };
   map: mapboxgl.Map | undefined;
   geocoder: MapboxGeocoder | undefined;
+  selectedLngLta: { lng: number; lat: number } = { lng: 0, lat: 0 };
   layers$: Observable<any> = this.getLayers();
   competitors: any[] = [];
   layerIcons: string[] = [
@@ -62,7 +66,9 @@ export class MapComponent implements OnInit {
     private mapService: MapCenterService,
     private http: HttpClient,
     private geocodeService: GeocodeService,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
+    private snackBar: MatSnackBar,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
@@ -72,7 +78,7 @@ export class MapComponent implements OnInit {
     const center = this.mapService.center as [number, number];
     this.map?.setCenter(center);
     this.getLayers();
-    this.layersIds = [];
+    this.setLayerIds();
   }
 
   initializeMap() {
@@ -83,6 +89,7 @@ export class MapComponent implements OnInit {
       zoom: 12,
     });
     this.map.on('click', event => {
+      this.selectedLngLta = event.lngLat;
       this.geocodeService.getReverseGeocode(event.lngLat).subscribe(r => {
         if (r) {
           this.map?.setCenter([event.lngLat.lng, event.lngLat.lat]);
@@ -131,7 +138,7 @@ export class MapComponent implements OnInit {
     );
     markerElement.classList.add('marker');
     modalDiv.classList.add('modal');
-    this.renderTemplateToElement(modalDiv, { name: 'Layer Example' });
+    this.renderTemplateToElement(modalDiv, { name: '' });
     new mapboxgl.Marker(markerElement)
       .setLngLat([coordinates.lng, coordinates.lat])
       .addTo(this.map!);
@@ -151,47 +158,48 @@ export class MapComponent implements OnInit {
   }
 
   getLayers(): Observable<any[]> {
-    const layerListUrl = 'http://194.32.141.100:8081/layers/list';
-    return this.http.post<LayersResponse>(layerListUrl, {}).pipe(
-      map((layers: LayersResponse) => {
-        return Object.values(
-          layers.results.reduce(
-            (acc: any, el: any, currentIndex: number) => {
-              if (el.groupNameForMain != GroupName.COMMON) {
-                const groupId = el.groupIdForMain;
-                if (!acc[groupId]) {
-                  acc[groupId] = {
-                    groupIdForMain: groupId,
-                    groupNameForMain: el.groupNameForMain,
-                    layers: [],
-                  };
+    return this.http
+      .post<LayersResponse>(environment.API_URL + 'layers/list', {})
+      .pipe(
+        map((layers: LayersResponse) => {
+          return Object.values(
+            layers.results.reduce(
+              (acc: any, el: any, currentIndex: number) => {
+                if (el.groupNameForMain != GroupName.COMMON) {
+                  const groupId = el.groupIdForMain;
+                  if (!acc[groupId]) {
+                    acc[groupId] = {
+                      groupIdForMain: groupId,
+                      groupNameForMain: el.groupNameForMain,
+                      layers: [],
+                    };
+                  }
+                  acc[groupId].layers.push({
+                    layerId: el.id,
+                    name: el.name,
+                  });
+                } else {
+                  this.commonLayers.groupIdForMain = el.groupIdForMain;
+                  this.commonLayers.groupNameForMain = el.groupNameForMain;
+                  this.commonLayers.layers.push({
+                    name: el.name,
+                    layerId: el.id,
+                  });
                 }
-                acc[groupId].layers.push({
-                  layerId: el.id,
-                  name: el.name,
-                });
-              } else {
-                this.commonLayers.groupIdForMain = el.groupIdForMain;
-                this.commonLayers.groupNameForMain = el.groupNameForMain;
-                this.commonLayers.layers.push({
-                  name: el.name,
-                  layerId: el.id,
-                });
-              }
-              return acc;
-            },
-            {} as Record<
-              number,
-              {
-                groupIdForMain: number;
-                groupNameForMain: string;
-                layers: any[];
-              }
-            >
-          )
-        );
-      })
-    );
+                return acc;
+              },
+              {} as Record<
+                number,
+                {
+                  groupIdForMain: number;
+                  groupNameForMain: string;
+                  layers: any[];
+                }
+              >
+            )
+          );
+        })
+      );
   }
 
   onClose(): void {
@@ -214,34 +222,68 @@ export class MapComponent implements OnInit {
   getLayerItems(name: string, layers: any) {
     this.title = name;
     this.competitors = [...layers];
+    this.showLayers = true;
   }
 
   onCheckboxClick(event: any, layer: any) {
     event.stopPropagation();
+    if (!event.target.checked) {
+      this.layersIds = this.layersIds.filter(id => id !== layer.layerId);
+    } else {
+      this.layersIds.push(layer.layerId);
+    }
+  }
+
+  selectLayerIds(event: any, layer: any) {
     if (event.target.checked) {
       this.layersIds.push(layer.layerId);
     } else {
       this.layersIds = this.layersIds.filter(id => id !== layer.layerId);
     }
   }
-
-  selectLayerIds(event: MouseEvent, layer: { name: string }) {}
+  setLayerIds() {
+    this.layersIds = [4278, 4276, 4277];
+  }
 
   onCreateReport(event: MouseEvent) {
+    this.showLayers = !this.showLayers;
     event.stopPropagation();
-    if (sessionStorage.getItem('token')) {
-    }
-    console.log(this.layersIds);
-    console.log(this.testUser);
-    console.log();
-    // event.stopPropagation();
-    // this.http.post('https://geo-intellect-e1414ec9c703.herokuapp.com/report/create-in-radius', {
-    //   layerId: this.layersIds[0],
-    //   longitude: this.pointCoordinates?.lng,
-    //   latitude: this.pointCoordinates?.lat,
-    //   radiusSize: 1000,
-    //   name: "string"
-    // }).subscribe(response => {
-    // })
+    const requestOptions: Object = {
+      responseType: 'text',
+    };
+    this.http
+      .post<string>(
+        environment.API_URL + 'auth/generate-token',
+        {
+          username: 'string',
+          password: 'string',
+        },
+        requestOptions
+      )
+      .subscribe((token: any) => {
+        this.token = token;
+        this.http
+          .post(
+            environment.API_URL + 'report/create-in-radius',
+            {
+              layerIds: this.layersIds,
+              longitude: this.pointCoordinates?.lng,
+              latitude: this.pointCoordinates?.lat,
+              radiusSize: 1000,
+              name: 'string',
+            },
+            { headers: { token: token } }
+          )
+          .subscribe((response: any) => {
+            this.setLayerIds();
+            this.clearMarkers();
+            // this.viewContainerRef.clear();
+            this.snackBar.open(
+              'Отчет создан, пройдите в раздел "Отчеты"',
+              'Close',
+              { duration: 4000 }
+            );
+          });
+      });
   }
 }

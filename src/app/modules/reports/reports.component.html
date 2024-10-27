@@ -3,7 +3,7 @@
   <div class="wrapper">
     <div class="card-title flex center-space-between">
       <span>Мои отчеты</span>
-      @if (reports!.length > 1) {
+      @if (reports.length > 1) {
         @if (!isAbilityToSelect) {
           <div class="btn" (click)="onChange()">
             Выбрать отчеты для сравнения
@@ -33,7 +33,7 @@
       </div>
     } @else {
       <div class="report-list gap-1">
-        @for (report of reports; track report.id) {
+        @for (report of reports; track report.Uid) {
           <div class="report-card flex-col gap-1">
             @if (isAbilityToSelect) {
               <div class="radio-btn" (click)="setActive(report)">
@@ -44,13 +44,16 @@
                 }
               </div>
             }
-            <img [src]="report.imageName" alt="reportImage" />
+            <img src="assets/images/report_1.png" alt="reportImage" />
             <div>
-              <span>{{ report.address }}</span>
-              <p>{{ report.date }}</p>
+              <span>{{ 'Без адреса' }}</span>
+              <!--              <span>{{ report.address || 'Без адреса' }}</span>-->
+              <p>{{ report.Recdate | date: 'dd.MM.yyyy' }}</p>
             </div>
             <div class="report-card__action">
-              <div class="btn" (click)="showDetails = true">Открыть отчет</div>
+              <div class="btn" (click)="openReportDetail(report)">
+                Открыть отчет
+              </div>
               <img
                 (click)="openModal()"
                 src="assets/svg/delete.svg"

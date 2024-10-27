@@ -10,6 +10,7 @@ import { SharedModule } from './modules/shared/shared.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatTooltip } from '@angular/material/tooltip';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', redirectTo: 'map', pathMatch: 'full' },
@@ -50,6 +51,8 @@ const routes: Routes = [
     SharedModule,
     MatTooltip,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   bootstrap: [AppComponent],
   exports: [RouterModule, HintComponent],

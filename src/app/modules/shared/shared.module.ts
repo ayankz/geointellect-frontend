@@ -12,6 +12,7 @@ import {
 } from '@angular/material/expansion';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [NavbarComponent, ExpandedCardComponent],
@@ -28,6 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatExpansionModule,
     FormsModule,
     MatDialogModule,
+    MatSnackBarModule,
   ],
 })
 export class SharedModule {}
