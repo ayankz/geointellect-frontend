@@ -22,6 +22,7 @@ export class ReportsComponent {
   @ViewChild('downloadBtn') downloadBtn!: ElementRef;
   public isAbilityToSelect = false;
   public showDetails = false;
+  public openCompare = false;
   public selectedReports: any[] = [];
   public reports: any[] = [];
   constructor(
@@ -33,6 +34,10 @@ export class ReportsComponent {
   openReportDetail(report: Report) {
     this.reportService.setSelectedReport(report);
     this.showDetails = true;
+  }
+  onCompareReports() {
+    const selectedReports = this.reports.filter(report => report.isSelected);
+    this.openCompare = !this.openCompare;
   }
   openModal() {
     this.dialog

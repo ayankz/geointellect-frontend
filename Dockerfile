@@ -12,7 +12,7 @@ RUN npm run build --prod
 
 FROM nginx:alpine
 
-COPY --from=build /app/dist/geointellect-frontend /usr/share/nginx/html
+COPY ./dist/geointellect-frontend /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 

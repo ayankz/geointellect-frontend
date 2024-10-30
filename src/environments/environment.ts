@@ -9,5 +9,5 @@ export const environment = {
     reverseGeocodeUrl: 'https://revgeocode.search.hereapi.com/v1/revgeocode',
     searchUrl: 'https://geocode.search.hereapi.com/v1/geocode',
   },
-  API_URL: 'http://194.32.141.100:8081/',
+  API_URL: '//194.32.141.100:8081/',
 };

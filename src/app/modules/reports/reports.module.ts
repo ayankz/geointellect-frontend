@@ -4,6 +4,7 @@ import { ReportsComponent } from './reports.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { ReportDetailsComponent } from './components/report-details/report-details.component';
+import { ReportCompareComponent } from './components/report-compare/report-compare.component';
 
 const reportsRoutes: Routes = [{ path: '', component: ReportsComponent }];
 
@@ -14,6 +15,7 @@ const reportsRoutes: Routes = [{ path: '', component: ReportsComponent }];
     RouterModule.forChild(reportsRoutes),
     SharedModule,
     ReportDetailsComponent,
+    ReportCompareComponent,
   ],
 })
 export class ReportsModule {}
